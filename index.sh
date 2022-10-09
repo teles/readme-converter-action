@@ -19,10 +19,11 @@ function echo_bookmarks_item {
   url="$2"
   name="$3"
   description="$4"
+  link_name=$([ "$description" == "" ] && echo "$name" || echo "$name - $description")
 
   echo -e "    <DT><H3>$section</H3></DT>
     <DL>
-      <DT><A HREF=\"$url\">$name - $description</A></DT>
+      <DT><A HREF=\"$url\">$link_name</A></DT>
     </DL>"
 }
 
