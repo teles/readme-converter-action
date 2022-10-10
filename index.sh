@@ -1,7 +1,19 @@
 #!/bin/bash
-source $(pwd)/parsers/bookmarks.sh 
-source $(pwd)/parsers/json.sh
-source $(pwd)/parsers/csv.sh
+
+type="bookmarks"
+basedir_to_parsers="."
+
+while getopts "b:t:" OPT; do
+  case "$OPT" in
+    t) type="${OPTARG}";;  
+    b) basedir_to_parsers="${OPTARG}";;    
+    *) exit 0;;
+  esac
+done
+
+source "$basedir_to_parsers/parsers/bookmarks.sh"
+source "$basedir_to_parsers/parsers/csv.sh"
+source "$basedir_to_parsers/parsers/json.sh"
 
 function on_title_match {
   type="$1"
@@ -128,14 +140,6 @@ function parse {
 }
 
 # main
-type="bookmarks"
-
-while getopts "t:" OPT; do
-  case "$OPT" in
-    t) type="${OPTARG}";;    
-    *) exit 0;;
-  esac
-done
 
 output=$(parse "$type")
 post_parser "$output"
