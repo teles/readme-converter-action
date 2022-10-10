@@ -1,34 +1,68 @@
 #!/bin/bash
+source ./parsers/bookmarks.sh 
+source ./parsers/json.sh
+source ./parsers/csv.sh
 
-function echo_bookmarks_begin {
-	title="$1"
-	echo -e "<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">
-<DL>
-  <DT><H3>$title</H3></DT>
-<DL>"
+function on_title_match {
+  type="$1"
+  title="$2"
+
+  case $type in
+    "bookmarks")
+      echo_bookmarks_begin "$title";; 
+    "csv")
+      echo_csv_begin;;
+    "json")
+      echo_json_begin "$title";;
+  esac
 }
 
-function echo_bookmarks_end {
-	echo -e "  </DL>    
-</DL>"
+function on_link_match {
+  type="$1"
+  section="$2"
+  url="$3"
+  name="$4"
+  description="$5"
+  title="$6"
+
+  case $type in
+    "bookmarks")
+      echo_bookmarks_item "$section" "$url" "$name" "$description" "$title";;
+    "csv")
+      echo_csv_item "$section" "$url" "$name" "$description";;
+    "json")
+      echo_json_item "$section" "$url" "$name" "$description" "$title";;
+  esac
 }
 
-function echo_bookmarks_item {
-  section="$1"
-  url="$2"
-  name="$3"
-  description="$4"
-  link_name=$([ "$description" == "" ] && echo "$name" || echo "$name - $description")
+function after_last_line {
+  type="$1"
 
-  echo -e "    <DT><H3>$section</H3></DT>
-    <DL>
-      <DT><A HREF=\"$url\">$link_name</A></DT>
-    </DL>"
+  case $type in
+    "bookmarks")
+      echo_bookmarks_end;;
+    "csv")
+      echo "";;
+    "json")
+      echo_json_end;;
+  esac
 }
 
+function post_parser {
+  output="$1"  
+
+  case $type in
+    "bookmarks")
+      echo "$output";;  
+    "csv")
+      echo "$output";;        
+    "json")
+      after_json_parser "$output";;
+  esac  
+}
 
 function parse {
+  type="$1"
   pattern_title="^# (.*)"
   pattern_section="^## (.*)"
   pattern_name="\ \[(.*)\]"
@@ -59,7 +93,7 @@ function parse {
              "1")
               title="$group"
               if [[ "$line_counter" -eq 0 ]]; then
-                echo_bookmarks_begin "$title"
+                on_title_match "$type" "$title"
               fi
               ;; 
           esac
@@ -83,18 +117,25 @@ function parse {
               ;;
           esac          
           if [[ "$is_last_match" -eq 1 ]]; then
-            echo_bookmarks_item "$section" "$url" "$name" "$description"
+            on_link_match "$type" "$section" "$url" "$name" "$description" "$title"
           fi          
           counter=$(( $counter + 1))
        done       
     fi
     line_counter=$(( $line_counter + 1))
   done 
-  echo_bookmarks_end
+  after_last_line "$type"
 }
 
-function main { 
-  parse 
-}
+# main
+type="bookmarks"
 
-main
+while getopts "t:" OPT; do
+  case "$OPT" in
+    t) type="${OPTARG}";;    
+    *) exit 0;;
+  esac
+done
+
+output=$(parse "$type")
+post_parser "$output"
