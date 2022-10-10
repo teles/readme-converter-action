@@ -2,6 +2,10 @@ name: 'Awesome parse action'
 description: 'Parse awesome links to bookmarks'
 
 inputs:
+  type:
+    description: 'Choose output type <csv|json|bookmarks>'
+    required: false
+    default: 'bookmarks'
   input:
     description: 'Input file path'
     required: false
@@ -19,7 +23,7 @@ runs:
         fetch-depth: 0  
     - run: mkdir -p $(dirname "${{ inputs.output }}")
       shell: bash
-    - run: ${{ github.action_path }}/index.sh "${{ inputs.input }}" "${{ inputs.output }}" < "${{ inputs.input }}" > "${{ inputs.output }}"
+    - run: ${{ github.action_path }}/index.sh -t ${{ inputs.type }} < "${{ inputs.input }}" > "${{ inputs.output }}"
       shell: bash
     - uses: EndBug/add-and-commit@v7
       with:
