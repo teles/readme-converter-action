@@ -1,7 +1,7 @@
 #!/bin/bash
-source ./parsers/bookmarks.sh 
-source ./parsers/json.sh
-source ./parsers/csv.sh
+source parsers/bookmarks.sh 
+source parsers/json.sh
+source parsers/csv.sh
 
 function on_title_match {
   type="$1"
