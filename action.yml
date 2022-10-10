@@ -24,9 +24,9 @@ runs:
     - run: mkdir -p $(dirname "${{ inputs.output }}")
       shell: bash
     - run: | 
-        source ${{ github.action_path }}/parsers/bookmarks.sh
-        source ${{ github.action_path }}/parsers/csv.sh
-        source ${{ github.action_path }}/parsers/json.sh
+        ${{ github.action_path }}/parsers/bookmarks.sh
+        ${{ github.action_path }}/parsers/csv.sh
+        ${{ github.action_path }}/parsers/json.sh
         ${{ github.action_path }}/index.sh -t ${{ inputs.type }} < "${{ inputs.input }}" > "${{ inputs.output }}"
       shell: bash
     - uses: EndBug/add-and-commit@v7
