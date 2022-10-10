@@ -9,7 +9,7 @@ inputs:
   commit_message:
     description: 'Commit message'
     required: false
-    default: 'Exports ${{ inputs.input }} to ${{ inputs.output }}'
+    default: 'Exports parsed links'
   commit_branch:
     description: 'Commit branch'
     required: false
