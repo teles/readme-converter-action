@@ -6,6 +6,14 @@ inputs:
     description: 'Choose output type <csv|json|bookmarks>'
     required: false
     default: 'bookmarks'
+  commit_message:
+    description: 'Commit message'
+    required: false
+    default: 'Exports "${{ inputs.input }}" to "${{ inputs.output }}"'
+  commit_branch:
+    description: 'Commit branch'
+    required: false
+    default: 'main'
   input:
     description: 'Input file path'
     required: false
@@ -28,9 +36,9 @@ runs:
       shell: bash
     - uses: EndBug/add-and-commit@v7
       with:
-        message: "docs(readme): Updates bookmark file to ${{ steps.get-latest-release.outputs.tag_name }}"
+        message: "${{ inputs.commit_message }}"
         default_author: github_actions
-        branch: main      
+        branch: "${{ inputs.commit_branch }}"
 
 branding:
   icon: star
