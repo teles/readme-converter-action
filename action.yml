@@ -23,7 +23,11 @@ runs:
         fetch-depth: 0  
     - run: mkdir -p $(dirname "${{ inputs.output }}")
       shell: bash
-    - run: ${{ github.action_path }}/index.sh -t ${{ inputs.type }} < "${{ inputs.input }}" > "${{ inputs.output }}"
+    - run: | 
+        source ${{ github.action_path }}/parsers/bookmarks.json
+        source ${{ github.action_path }}/parsers/csv.json
+        source ${{ github.action_path }}/parsers/json.json
+        ${{ github.action_path }}/index.sh -t ${{ inputs.type }} < "${{ inputs.input }}" > "${{ inputs.output }}"
       shell: bash
     - uses: EndBug/add-and-commit@v7
       with:
