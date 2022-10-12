@@ -1,0 +1,9 @@
+on: [push]
+
+jobs:
+  parse_to_bookmarks:
+    runs-on: ubuntu-latest
+    name: Shell Check 
+    steps:
+      - name: Shell Linter
+        uses: azohra/shell-linter@v0.6.0
