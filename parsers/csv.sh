@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function echo_csv_begin {
-	echo -e "section,name,description,url"
+    echo -e "section,name,description,url"
 }
 
 function echo_csv_item {
