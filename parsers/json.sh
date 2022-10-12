@@ -1,12 +1,12 @@
 #!/bin/bash
 
 function echo_json_begin {
-	title="$1"
-	echo -e "{\"title\": \"$title\", \"links\":["
+  title="$1"
+  echo -e "{\"title\": \"$title\", \"links\":["
 }
 
 function echo_json_end {
-	echo -e "]}"
+  echo -e "]}"
 }
 
 function echo_json_item {
