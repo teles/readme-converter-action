@@ -1,4 +1,6 @@
-# Awesome Parser Action
+# Readme Converter Action
+
+![Readme Converter Logo](logo.svg "Readme Converter Logo")
 
 This GitHub action reads the content of a `README.md` file from another repository and transforms it into HTML Chrome bookmarks, CSV, and JSON files. It's a useful tool for exporting link and bookmark information from a README file into other formats.
 
@@ -15,16 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Export README to json, csv, and bookmarks
     steps:
-        - uses: teles/awesome-parser-action@v0.4.2
+        - uses: teles/readme-converter-action@v0.4.2
           with:
             input: README.md
             output: dist/bookmarks.html
-        - uses: teles/awesome-parser-action@v0.4.2
+        - uses: teles/readme-converter-action@v0.4.2
           with:
             type: csv
             input: README.md
             output: dist/links.csv
-        - uses: teles/awesome-parser-action@v0.4.2
+        - uses: teles/readme-converter-action@v0.4.2
           with:
             type: json
             input: README.md
