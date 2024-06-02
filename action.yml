@@ -1,4 +1,4 @@
-name: 'Awesome parse action'
+name: 'Readme Converter Action'
 description: 'Parse awesome links to bookmarks'
 
 inputs:
