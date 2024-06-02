@@ -1,5 +1,5 @@
 name: 'Readme Converter Action'
-description: 'Parse awesome links to bookmarks'
+description: 'Convert readme files to other formats such as bookmarks, json and csv'
 
 inputs:
   type:
@@ -41,5 +41,16 @@ runs:
         branch: "${{ inputs.commit_branch }}"
 
 branding:
-  icon: star
-  color: purple
+  icon: 'star'
+  color: 'purple'
+
+categories:
+  - Code Quality
+  - Continuous Integration
+
+keywords:
+  - readme
+  - bookmarks
+  - converter
+  - csv
+  - json
